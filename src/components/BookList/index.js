@@ -13,7 +13,7 @@ export function BookList({ children }) {
 export function BookListItem({
   thumbnail = "https://placehold.it/300x300",
   title,
-  authors,
+  author,
   href,
   saved
 }) {
@@ -26,7 +26,7 @@ export function BookListItem({
           </Col>
           <Col size="xs-8 sm-9">
             <h3>{title}</h3>
-            <p>Author(s): {authors}</p>
+            <p>Author: {author}</p>
             <a rel="noreferrer noopener" target="_blank" href={href}>
               Click here for more details!
             </a>

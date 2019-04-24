@@ -75,7 +75,7 @@ class Search extends Component {
                         key={book.title}
                         title={book.title}
                         href={book.href}
-                        authors={book.authors}
+                        authors{book.author}
                         thumbnail={book.thumbnail}
                       />
                     );
