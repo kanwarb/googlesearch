@@ -1,7 +1,7 @@
 import axios from "axios";
 const BASEURL = "https://www.googleapis.com/books/v1/volumes?q=";
 
-export default {
+export default  {
   searchBooks: function(query) {
     return axios.get(BASEURL + query);
   },
