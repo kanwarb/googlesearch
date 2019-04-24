@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import {BrowserRouter as Router, Route} from "react-routing-dom"
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import Search from "./pages/Search";
+import Saved from "./pages/Saved";
 import "./App.css";
 
 function App(){
@@ -8,7 +10,7 @@ function App(){
       <div>
         <Route Search exact_path="/" component={Search} />
         <Route Search exact_path="/search" component={Search} />
-        <Route Books exact_path="/Saved" component={Saved}  />
+        <Route Books exact_path="/saved" component={Saved}  />
   
       </div>
       </Router>
