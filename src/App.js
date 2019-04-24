@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import {BrowserRouter as Router, Route} from "react-routing-dom"
-import logo from "./logo.svg";
 import "./App.css";
 
 function App(){
-  render() {
     return (
       <Router>
       <div>
@@ -15,7 +13,6 @@ function App(){
       </div>
       </Router>
     );
-  }
 }
 
 export default App;
