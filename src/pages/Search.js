@@ -1,39 +1,21 @@
-import React from "react";
-import DeleteBtn from "../components/DeleteBtn";
-import Jumbotron from "../components/Jumbotron";
-import API from "../utils/API";
-import { Link } from "react-router-dom";
-import { Col, Row, Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import React, { Component } from "react";
+import Jumbotron from "./components/Jumbotron";
+import Nav from "./components/Nav";
+import Input from "./components/Input";
+import Button from "./components/Button";
+import API from "./utils/API";
+import { BookList, BookListItem } from "./components/BookList";
+import { Container, Row, Col } from "./components/Grid";
 
 class Search extends Component {
-state = {
-  books: [],
-  title: "",
-  author: "",
-  sypnosis: ""
-};
-
-componentDidMount() {
-    this.loadBooks();
-  }
-
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-      )
-      .catch(err => console.log(err));
-  };
-
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
-      .catch(err => console.log(err));
+  state = {
+    books: [],
+    bookSearch: ""
   };
 
   handleInputChange = event => {
+    // Destructure the name and value properties off of event.target
+    // Update the appropriate state
     const { name, value } = event.target;
     this.setState({
       [name]: value
@@ -41,79 +23,71 @@ componentDidMount() {
   };
 
   handleFormSubmit = event => {
+    // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     event.preventDefault();
-    if (this.state.title && this.state.author) {
-      API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
-      })
-        .then(res => this.loadBooks())
-        .catch(err => console.log(err));
-    }
+    API.getBooks(this.state.bookSearch)
+      .then(res => this.setState({ books: res.data }))
+      .catch(err => console.log(err));
   };
 
   render() {
     return (
-      <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Books On My List</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
-              <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
-                      <strong>
-                        {book.title} by {book.author}
-                      </strong>
-                    </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
+      <div>
+        <Nav />
+        <Jumbotron />
+        <Container>
+          <Row>
+            <Col size="md-12">
+              <form>
+                <Container>
+                  <Row>
+                    <Col size="xs-9 sm-10">
+                      <Input
+                        name="bookSearch"
+                        value={this.state.bookSearch}
+                        onChange={this.handleInputChange}
+                        placeholder="Search For a Book!"
+                      />
+                    </Col>
+                    <Col size="xs-3 sm-2">
+                      <Button
+                        onClick={this.handleFormSubmit}
+                        type="success"
+                        className="input-lg"
+                      >
+                        Search
+                      </Button>
+                    </Col>
+                  </Row>
+                </Container>
+              </form>
+            </Col>
+          </Row>
+          <Row>
+            <Col size="xs-12">
+              {!this.state.books.length ? (
+                <h1 className="text-center">No Books to Display</h1>
+              ) : (
+                <BookList>
+                  {this.state.books.map(book => {
+                    return (
+                      <BookListItem
+                        key={book.title}
+                        title={book.title}
+                        href={book.href}
+                        authors={book.authors}
+                        thumbnail={book.thumbnail}
+                      />
+                    );
+                  })}
+                </BookList>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
-
 }
 
 export default Search;
