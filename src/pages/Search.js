@@ -15,7 +15,7 @@ state = {
   sypnosis: ""
 };
 
-Search() {
+render() {
     return(
         <div>
             <h1>
@@ -25,5 +25,6 @@ Search() {
     )
 
 }
+}
 
-export default Search
+export default Search;
