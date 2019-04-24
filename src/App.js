@@ -3,24 +3,15 @@ import {BrowserRouter as Router, Route} from "react-routing-dom"
 import logo from "./logo.svg";
 import "./App.css";
 
-class App extends Component {
-
- state= {
-    name: value
-}
-
-handleChange = () =>{
-    
-}
-
+function App(){
   render() {
     return (
       <Router>
-      <div className="App">
-        <Wrapper>
-
-
-        </Wrapper>
+      <div>
+        <Route Search exact_path="/" component={Search} />
+        <Route Search exact_path="/search" component={Search} />
+        <Route Books exact_path="/Saved" component={Saved}  />
+  
       </div>
       </Router>
     );
