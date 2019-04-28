@@ -4,11 +4,11 @@ label{
     float: left;
 }
 
-input {
-    width: 30%;
-    position: relative;
+.input {
+    width: 70%;
+
 }
 
-button{
-    float:right;
+.button{
+    position: relative;
 }
