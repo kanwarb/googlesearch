@@ -1,0 +1,14 @@
+label{
+    margin-top:20px;
+    width:100px;
+    float: left;
+}
+
+input {
+    width: 30%;
+    position: relative;
+}
+
+button{
+    float:right;
+}

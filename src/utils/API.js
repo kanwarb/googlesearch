@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export default {
-  getGoogleBooks: function (search) {
-    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=15&key=trilogy`)
+export default  {
+  getGoogleBooks: function(search) {
+    return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=15&key=AIzaSyC6OZ9TFUvaEauu3PHn36LbCflYYcULOnI`);
   },
 
   saveBook: function (bookData) {

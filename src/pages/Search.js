@@ -1,93 +1,69 @@
 import React, { Component } from "react";
-import Jumbotron from "./components/Jumbotron";
-import Nav from "./components/Nav";
-import Input from "./components/Input";
-import Button from "./components/Button";
-import API from "./utils/API";
-import { BookList, BookListItem } from "./components/BookList";
-import { Container, Row, Col } from "./components/Grid";
-
+import API from "../utils/API";
+import SearchBook from "../components/SearchBook"
+import Container from "../components/Container";
+// import SearchResults from "../components/SearchResults";
+import {List, ListItem} from "../components/List";
 class Search extends Component {
-  state = {
-    books: [],
-    bookSearch: ""
-  };
+state = {
+  books: [],
+  title: "",
+  author: [],
+  description: "",
+  saved: "",
+  results: [],
+  image: "",
+  link: ""
 
-  handleInputChange = event => {
-    // Destructure the name and value properties off of event.target
-    // Update the appropriate state
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+};
+
+handleInputChange = event => {
+    this.setState({ search: event.target.value });
   };
 
   handleFormSubmit = event => {
-    // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     event.preventDefault();
-    API.getBooks(this.state.bookSearch)
-      .then(res => this.setState({ books: res.data }))
-      .catch(err => console.log(err));
+    API.getGoogleBooks(this.state.search)
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+       
+        this.setState({ books: res.data.items, error: "" });
+        console.log(res.data.items);
+        
+      })
+      .catch(err => this.setState({ error: err.message }));
   };
 
-  render() {
-    return (
-      <div>
-        <Nav />
-        <Jumbotron />
+render() {
+      return(
         <Container>
-          <Row>
-            <Col size="md-12">
-              <form>
-                <Container>
-                  <Row>
-                    <Col size="xs-9 sm-10">
-                      <Input
-                        name="bookSearch"
-                        value={this.state.bookSearch}
-                        onChange={this.handleInputChange}
-                        placeholder="Search For a Book!"
-                      />
-                    </Col>
-                    <Col size="xs-3 sm-2">
-                      <Button
-                        onClick={this.handleFormSubmit}
-                        type="success"
-                        className="input-lg"
-                      >
-                        Search
-                      </Button>
-                    </Col>
-                  </Row>
-                </Container>
-              </form>
-            </Col>
-          </Row>
-          <Row>
-            <Col size="xs-12">
-              {!this.state.books.length ? (
-                <h1 className="text-center">No Books to Display</h1>
-              ) : (
-                <BookList>
-                  {this.state.books.map(book => {
-                    return (
-                      <BookListItem
-                        key={book.title}
-                        title={book.title}
-                        href={book.href}
-                        authors={book.authors}
-                        thumbnail={book.thumbnail}
-                      />
-                    );
-                  })}
-                </BookList>
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    );
-  }
+          <h1 className="text-center"> (React) Google Books Search</h1>
+          <h3 className="text-center">Search for and Save Books of Interest</h3>
+          <SearchBook
+            handleFormSubmit={this.handleFormSubmit}
+            handleInputChange={this.handleInputChange}
+            /><br />
+          {this.state.books.map((book,index)=> (
+            <div className="row">
+              <div className="col s12 m6">
+              <div className="card blue-grey darken-1">
+                  <div className="card-content white-text">
+                  <span className="card-title" key={book[index]}>{book.volumeInfo.authors}</span>
+                  <div className="card-body">
+                  <img alt="Books" src={book.volumeInfo.imageLinks.thumbnail} className="img-fluid float-left" />
+                  <p>{book.volumeInfo.description}</p>
+                  </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+          ))}
+      </Container>
+      )
+}
+  
 }
 
 export default Search;
