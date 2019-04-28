@@ -44,22 +44,38 @@ render() {
           <SearchBook
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
-            /><br />
+            />
+                      <br />
+          <div className="container mt-5">
+
+
           {this.state.books.map((book,index)=> (
             <div className="row">
-              <div className="col s12 m6">
-              <div className="card blue-grey darken-1">
-                  <div className="card-content white-text">
-                  <span className="card-title" key={book[index]}>{book.volumeInfo.authors}</span>
+              <div className="col s12">
+              <div className="card  mt-3" >
+                  <div className="card-content">
+                  <div>
+                  <h4><strong>Title: {book.volumeInfo.title}</strong></h4>
+                   <button className="float-right bg-success"
+                        onClick={API.saveBook({
+
+                        })}
+                
+                   >Save</button>
+                   <a href={book.volumeInfo.infoLink} target="_blank"> <button className="float-right bg-info">View</button></a>
+                  </div>
+                  <h6>Subtitle: {book.volumeInfo.subtitle}</h6>
+                  <p className="card-title" key={book[index]}>Authors: {book.volumeInfo.authors},</p>
                   <div className="card-body">
-                  <img alt="Books" src={book.volumeInfo.imageLinks.thumbnail} className="img-fluid float-left" />
-                  <p>{book.volumeInfo.description}</p>
+                  <img alt="Books" src={book.volumeInfo.imageLinks.thumbnail} className="img float-left" />
+                    <p >{book.volumeInfo.description}</p>
                   </div>
                   </div>
               </div>
               </div>
           </div>
           ))}
+          </div>  
       </Container>
       )
 }
