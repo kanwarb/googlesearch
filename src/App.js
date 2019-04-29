@@ -14,7 +14,7 @@ function App() {
         <Wrapper>
           <Route exact path="/" component={Search} />
           <Route exact path="/search" component={Search} />
-          <Route exact path="/search" component={Saved} />
+          <Route exact path="/saved" component={Saved} />
         </Wrapper>
       </div>
     </Router>

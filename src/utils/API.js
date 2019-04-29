@@ -6,14 +6,14 @@ export default  {
   },
 
   saveBook: function (bookData) {
-    return axios.post('/api/books/saved', bookData);
+    return axios.post('https://googlesearch-be.herokuapp.com/api/books', bookData );
   },
 
   getSaved: function () {
-    return axios.get('/api/books/saved')
+    return axios.get('https://googlesearch-be.herokuapp.com/api/books')
   },
 
   deleteBook: function (id) {
-    return axios.delete(`/api/books/saved/${id}`)
+    return axios.delete(`https://googlesearch-be.herokuapp.com/api/books/${id}`)
   }
 };
